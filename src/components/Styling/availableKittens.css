@@ -19,8 +19,8 @@
 }
 
 .carousel-card {
-  width: 300px; /* Fixed width for consistency */
-  height: 300px; /* Matches your compact layout */
+  width: 400px; /* Fixed width for consistency */
+  height: 500px; /* Matches your compact layout */
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
