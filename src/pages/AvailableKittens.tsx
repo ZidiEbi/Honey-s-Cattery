@@ -10,7 +10,6 @@ import Footer from "../components/Footer";
 const AvailableKittens = ({ toggleDark, isDark }: { toggleDark: () => void; isDark: boolean }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showRequestForm, setShowRequestForm] = useState(false);
   const [formData, setFormData] = useState({
     breed: "",
@@ -40,26 +39,19 @@ const AvailableKittens = ({ toggleDark, isDark }: { toggleDark: () => void; isDa
     }
   }, [isPaused, kittens.length]);
 
-  const handleCardInteraction = (index: number) => {
-    setSelectedIndex(index === selectedIndex ? null : index);
-    setIsPaused(true);
-  };
-
-  const handleLeave = () => {
-    setIsPaused(false);
-    setSelectedIndex(null);
-  };
+  const handleCardHover = () => setIsPaused(true);
+  const handleCardLeave = () => setIsPaused(false);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + kittens.length) % kittens.length);
     setIsPaused(true);
-    setTimeout(() => setIsPaused(false), 1000); // Resume after 1s
+    setTimeout(() => setIsPaused(false), 1000);
   };
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev + 1) % kittens.length);
     setIsPaused(true);
-    setTimeout(() => setIsPaused(false), 1000); // Resume after 1s
+    setTimeout(() => setIsPaused(false), 1000);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -112,79 +104,61 @@ const AvailableKittens = ({ toggleDark, isDark }: { toggleDark: () => void; isDa
             <motion.button
               className="nav-arrow nav-prev"
               onClick={handlePrev}
-              whileHover={{ scale: 1.2, rotate: -10 }}
+              whileHover={{ scale: 1.3, rotate: -15 }}
               whileTap={{ scale: 0.9 }}
             >
               <span>🐾</span>
             </motion.button>
             <div
               className="kitten-carousel"
-              onMouseEnter={() => setIsPaused(true)}
-              onMouseLeave={handleLeave}
+              onMouseEnter={handleCardHover}
+              onMouseLeave={handleCardLeave}
             >
-              <AnimatePresence>
-                {kittens.map((kitten, index) => {
-                  const offset = (index - activeIndex + kittens.length) % kittens.length;
-                  const isActive = offset === 0;
-                  const isSelected = selectedIndex === index;
-
-                  return (
-                    <motion.div
-                      key={kitten.id}
-                      className={`carousel-card ${isActive ? "active" : ""} ${isSelected ? "selected" : ""}`}
-                      initial={{ x: "100%", opacity: 0, rotateY: 90 }}
-                      animate={{
-                        x: `${(offset - 1) * 25}%`,
-                        opacity: isActive ? 1 : isSelected ? 1 : 0.6,
-                        scale: isSelected ? 1.1 : isActive ? 1 : 0.85,
-                        rotateY: isSelected ? 0 : (offset - 1) * 20,
-                        zIndex: isSelected ? 15 : isActive ? 10 : 5 - Math.abs(offset - 1),
-                        boxShadow: isActive
-                          ? "0 0 25px rgba(135, 168, 201, 0.8)"
-                          : "0 5px 15px rgba(0, 0, 0, 0.2)",
-                      }}
-                      transition={{ type: "spring", stiffness: 120, damping: 15 }}
-                      onClick={() => handleCardInteraction(index)}
-                      whileHover={{ scale: 1.05 }}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeIndex}
+                  className="carousel-card"
+                  initial={{ opacity: 0, x: 100 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  exit={{ opacity: 0, x: -100 }}
+                  transition={{ type: "spring", stiffness: 150, damping: 15 }}
+                >
+                  <img src={kittens[activeIndex].src} alt={kittens[activeIndex].caption} className="carousel-img" />
+                  <motion.div
+                    className="carousel-overlay"
+                    initial={{ opacity: 0 }}
+                    whileHover={{ opacity: 1 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <motion.button
+                      className="btn btn-want"
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{ type: "spring", stiffness: 400, delay: 0.1 }}
                     >
-                      <img src={kitten.src} alt={kitten.caption} className="carousel-img" />
-                      <motion.div
-                        className="carousel-overlay"
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: isSelected ? 1 : 0, y: isSelected ? 0 : 20 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <motion.button
-                          className="btn btn-want"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
-                        >
-                          I Want This One
-                        </motion.button>
-                      </motion.div>
-                      <motion.div
-                        className="carousel-caption"
-                        initial={{ y: 50, opacity: 0 }}
-                        animate={{ y: isSelected ? 0 : 50, opacity: isSelected ? 1 : 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        {kitten.caption}
-                      </motion.div>
-                    </motion.div>
-                  );
-                })}
+                      I Want This One
+                    </motion.button>
+                  </motion.div>
+                  <motion.div
+                    className="carousel-caption"
+                    initial={{ y: 30, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                  >
+                    {kittens[activeIndex].caption}
+                  </motion.div>
+                </motion.div>
               </AnimatePresence>
               <motion.div
                 className="carousel-background"
-                animate={{ scale: [1, 1.03, 1], opacity: [0.7, 1, 0.7] }}
-                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                animate={{ x: [-20, 20, -20], opacity: [0.6, 1, 0.6] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               />
             </div>
             <motion.button
               className="nav-arrow nav-next"
               onClick={handleNext}
-              whileHover={{ scale: 1.2, rotate: 10 }}
+              whileHover={{ scale: 1.3, rotate: 15 }}
               whileTap={{ scale: 0.9 }}
             >
               <span>🐾</span>
