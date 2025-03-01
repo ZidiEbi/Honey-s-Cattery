@@ -23,10 +23,10 @@ const AvailableKittens = ({ toggleDark, isDark }: { toggleDark: () => void; isDa
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
 
   const kittens = [
-    { id: 1, src: "/assets/kitten1.jpg", caption: "Cinnamon - 8 Weeks" },
-    { id: 2, src: "/assets/Fendi2.jpg", caption: "Chocolate - 10 Weeks" },
-    { id: 3, src: "/assets/babycat.jpg", caption: "Blue-Eyed - 9 Weeks" },
-    { id: 4, src: "/assets/playfull.jpg", caption: "Fawn - 7 Weeks" },
+    { id: 1, src: "../src/assets/kitten1.jpg", caption: "Cinnamon - 8 Weeks" },
+    { id: 2, src: "../src/assets/Fendi2.jpg", caption: "Chocolate - 10 Weeks" },
+    { id: 3, src: "../src/assets/babycat.jpg", caption: "Blue-Eyed - 9 Weeks" },
+    { id: 4, src: "../src/assets/playfull.jpg", caption: "Fawn - 7 Weeks" },
   ];
 
   // Auto-scroll every 2.5 seconds unless paused
