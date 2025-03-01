@@ -1,19 +1,38 @@
-import React from "react";
+import { motion } from "framer-motion";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
+import "../components/Styling/ourKittens.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-const OurKittens = () => {
+const OurKittens = ({ toggleDark, isDark }: { toggleDark: () => void; isDark: boolean }) => {
   return (
     <div className="container-fluid p-0">
-      <Header />
-      <main className="main py-5">
+      <Header toggleDark={toggleDark} isDark={isDark} />
+      <motion.main
+        className="main py-5"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
         <div className="container">
           <h2 className="text-center mb-4">Our Kittens</h2>
-          <p className="text-center">Meet our adorable British Shorthair family.</p>
+          <div className="row g-4">
+            {[1, 2, 3].map((i) => (
+              <motion.div
+                key={i}
+                className="col-12 col-md-4"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <div className="kitten-card">
+                  <img src={`/assets/cat${i}.jpg`} className="kitten-img" alt={`Kitten ${i}`} />
+                  <p>Kitten {i}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
-      </main>
+      </motion.main>
       <Footer />
     </div>
   );

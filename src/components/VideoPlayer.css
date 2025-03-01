@@ -1,0 +1,213 @@
+.custom-video-player {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    background: var(--bg-color);
+  }
+  
+  .video-wrapper {
+    position: relative;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .video {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
+  }
+  
+  .play-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); /* Translucent overlay */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .video-wrapper:hover .play-overlay,
+  .video-wrapper:focus .play-overlay {
+    opacity: 1;
+  }
+  
+  .play-button {
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent white */
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    color: #333333;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease, transform 0.3s ease;
+  }
+  
+  .play-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+  }
+  
+  .video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 8px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .custom-video-player:hover .video-controls,
+  .custom-video-player:focus .video-controls {
+    opacity: 1;
+  }
+  
+  .control-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 4px;
+    transition: color 0.3s ease;
+  }
+  
+  .control-btn:hover {
+    color: #87a8c9; /* Dusty Blue */
+  }
+  
+  .seek-bar,
+  .volume-bar {
+    flex: 1;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    cursor: pointer;
+    appearance: none;
+    outline: none;
+  }
+  
+  .seek-bar::-webkit-slider-thumb,
+  .volume-bar::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .seek-bar::-webkit-slider-thumb:hover,
+  .volume-bar::-webkit-slider-thumb:hover {
+    background: #87a8c9;
+  }
+  
+  .seek-bar::-moz-range-thumb,
+  .volume-bar::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  
+  .seek-bar::-moz-range-thumb:hover,
+  .volume-bar::-moz-range-thumb:hover {
+    background: #87a8c9;
+  }
+  
+  .time-display {
+    color: white;
+    font-size: 12px;
+    margin: 0 8px;
+    font-family: "Lato", sans-serif;
+  }
+  
+  .video-title {
+    text-align: center;
+    margin-top: 10px;
+    font-family: "Playfair Display", "Georgia", serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-color);
+  }
+  
+  @media (max-width: 767px) {
+    .video-controls {
+      padding: 6px;
+      gap: 6px;
+    }
+  
+    .control-btn {
+      font-size: 14px;
+    }
+  
+    .seek-bar,
+    .volume-bar {
+      height: 4px;
+    }
+  
+    .seek-bar::-webkit-slider-thumb,
+    .volume-bar::-webkit-slider-thumb,
+    .seek-bar::-moz-range-thumb,
+    .volume-bar::-moz-range-thumb {
+      width: 10px;
+      height: 10px;
+    }
+  
+    .time-display {
+      font-size: 10px;
+    }
+  
+    .play-button {
+      width: 50px;
+      height: 50px;
+      font-size: 20px;
+    }
+  
+    .video-title {
+      font-size: 1rem;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .video-title {
+      font-size: 1.35rem;
+    }
+  
+    .play-button {
+      width: 60px;
+      height: 60px;
+      font-size: 24px;
+    }
+  }
+  
+  .dark-mode .play-overlay {
+    background: rgba(0, 0, 0, 0.5); /* Darker overlay for dark mode */
+  }
+  
+  .dark-mode .play-button {
+    background: rgba(240, 240, 240, 0.8); /* Lighter in dark mode */
+    color: #1a1a1a; /* Dark text for contrast */
+  }
+  
+  .dark-mode .play-button:hover {
+    background: rgba(240, 240, 240, 1);
+  }

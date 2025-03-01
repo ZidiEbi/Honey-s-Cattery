@@ -1,0 +1,30 @@
+.main {
+    background-color: #f9f5f0;
+  }
+  
+  .faq-list {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .faq-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  h3 {
+    font-family: "Playfair Display", "Georgia", serif;
+    font-size: 1.25rem;
+    color: #333333;
+    margin: 0 0 0.5rem;
+  }
+  
+  p {
+    font-family: "Lato", "Arial", sans-serif;
+    font-size: 1rem;
+    color: #666666;
+    margin: 0;
+  }

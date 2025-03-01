@@ -14,6 +14,7 @@ const SkyblueEyes = lazy(() => import("./pages/SkyblueEyes"));
 const FAQ = lazy(() => import("./pages/FAQ"));
 const Contact = lazy(() => import("./pages/Contact"));
 
+  
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Router>
@@ -21,7 +22,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/available-kittens" element={<AvailableKittens />} />
-          <Route path="/our-kittens" element={<OurKittens />} />
+          <Route path="/our-kittens" element={<OurKittens toggleDark={() => {}} isDark={false} />} />
           <Route path="/waiting-list" element={<WaitingList />} />
           <Route path="/international-adoptions" element={<InternationalAdoptions />} />
           <Route path="/skyblue-eyes" element={<SkyblueEyes />} />
