@@ -1,0 +1,89 @@
+.page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kitten-preview {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 15px;
+  object-fit: contain;
+  margin: 0 auto 20px;
+}
+
+.payment-options {
+  max-width: 600px;
+  width: 90%;
+  padding: 20px;
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.payment-options h3 {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+}
+
+.payment-options .btn {
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  padding: 12px;
+  transition: background-color 0.3s;
+}
+
+.payment-options .btn:hover {
+  background-color: #6c8da6;
+}
+
+/* Ensure mobile-friendly layout */
+@media (max-width: 767px) {
+  .payment-options {
+    padding: 15px;
+  }
+
+  .payment-options h3 {
+    font-size: 1.1rem;
+  }
+
+  .payment-options .btn {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+
+  .kitten-preview {
+    max-width: 300px;
+  }
+}
+
+/* Dark Mode (if applicable) */
+.dark-mode .payment-options {
+  background: #2c2c2c;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.dark-mode .payment-options h3,
+.dark-mode .payment-options .btn,
+.dark-mode .payment-options p {
+  color: #f0f0f0;
+}
+
+.dark-mode .payment-options .btn-primary {
+  background-color: #87a8c9;
+  border-color: #87a8c9;
+}
+
+.dark-mode .payment-options .btn-primary:hover {
+  background-color: #6c8da6;
+  border-color: #6c8da6;
+}
+
+.dark-mode .kitten-preview {
+  background: #333;
+}

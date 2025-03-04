@@ -1,16 +1,32 @@
+.page-wrapper {
+  min-height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1; /* Fills remaining space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important; /* Remove padding for full stretch */
+}
+
 .kitten-carousel-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%; /* Stretch to fill main */
 }
 
 .kitten-carousel {
   position: relative;
-  height: 400px; /* Compact viewport fit */
   width: 100%;
+  height: 80vh; /* Major portion of viewport on mobile */
+  min-height: 400px; /* Minimum for smaller screens */
+  max-height: 600px; /* Cap for larger screens */
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -19,8 +35,10 @@
 }
 
 .carousel-card {
-  width: 400px; /* Fixed width for consistency */
-  height: 500px; /* Matches your compact layout */
+  width: 90vw; /* Nearly full width on mobile */
+  max-width: 400px; /* Desktop cap */
+  height: 90vw; /* Square aspect ratio */
+  max-height: 400px; /* Desktop cap */
   border-radius: 15px;
   overflow: hidden;
   cursor: pointer;
@@ -52,7 +70,7 @@
   background: rgba(255, 255, 255, 0.9);
   border: 2px solid #fff;
   padding: 10px 20px;
-  font-size: 1.2rem;
+  font-size: clamp(1rem, 4vw, 1.4rem); /* Responsive font size */
   color: #333;
   border-radius: 25px;
 }
@@ -66,8 +84,25 @@
   color: #fff;
   padding: 8px;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: clamp(0.9rem, 3vw, 1.2rem); /* Responsive font size */
   border-radius: 0 0 15px 15px;
+}
+
+.request-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+}
+
+.request-invite {
+  display: inline;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #333;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
 }
 
 .carousel-background {
@@ -100,26 +135,50 @@
 }
 
 .nav-prev {
-  left: -50px;
+  left: 5px; /* Closer on mobile */
 }
 
 .nav-next {
-  right: -50px;
+  right: 5px; /* Closer on mobile */
 }
 
-.request-section {
-  margin-top: 2rem;
+.description {
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  color: #666;
 }
 
-.request-invite {
-  font-size: 1.2rem;
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .kitten-carousel {
+    height: 70vh; /* Larger on tablets/desktops */
+    max-height: 700px; /* Cap for larger screens */
+  }
+
+  .carousel-card {
+    width: 50vw; /* Larger on tablets */
+    max-width: 500px;
+    height: 50vw;
+    max-height: 500px;
+  }
+
+  .nav-prev {
+    left: -50px;
+  }
+
+  .nav-next {
+    right: -50px;
+  }
+
+  .description {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+  }
 }
 
-.btn-link {
-  color: #87a8c9;
-  text-decoration: underline;
-}
-
-.btn-link:hover {
-  color: #6c8da6;
+@media (min-width: 992px) {
+  .carousel-card {
+    width: 40vw; /* Even larger on desktops */
+    max-width: 600px;
+    height: 40vw;
+    max-height: 600px;
+  }
 }
