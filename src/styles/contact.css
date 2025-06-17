@@ -1,0 +1,69 @@
+/* src/styles/contact.css */
+
+/* .main overrides for Contact page to handle fixed header/footer padding */
+.main {
+  flex: 1; /* Inherited from index.css for flex-grow */
+  /* CRITICAL: Add padding to main to offset fixed header and footer specific to this page */
+  padding-top: var(--header-height-initial-desktop); /* Default for desktop */
+  padding-bottom: var(--footer-height-approx); /* Default for all screens */
+}
+
+/* Responsive adjustments for main padding specific to Contact page */
+@media (max-width: 991.98px) { /* Adjusted breakpoint to match Header.tsx mobile */
+  .main {
+    padding-top: var(--header-height-initial-mobile); /* Adjust for mobile header height */
+  }
+}
+
+.contact-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    border-radius: 10px;
+    background: #fff; /* Light mode background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.social-media {
+    padding: 30px;
+    border-radius: 10px;
+    background: #fff; /* Light mode background */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.d-flex {
+    gap: 4rem;
+}
+
+/* Dark Mode Overrides for Contact Page Elements */
+.dark-mode .contact-form,
+.dark-mode .social-media {
+  background: #2c2c2c;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+.dark-mode .form-label {
+  color: var(--text-color); /* Inherit dark mode text color from global variable */
+}
+
+.dark-mode .form-control {
+  background: #3c3c3c;
+  border-color: #555;
+  color: var(--text-color);
+}
+
+.dark-mode .form-control:focus {
+  box-shadow: 0 0 0 0.25rem rgba(135, 168, 201, 0.25);
+}
+
+.dark-mode .btn-primary {
+  background-color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+}
+
+.dark-mode .btn-primary:hover {
+  background-color: #6c8da6;
+  border-color: #6c8da6;
+}
+
+/* Ensure social icons in contact page also adapt to dark mode (already handled by .social-icon in footer.css and global vars) */

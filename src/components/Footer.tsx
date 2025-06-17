@@ -1,32 +1,54 @@
-import React from "react";
-import { FaTiktok, FaInstagram, FaFacebook, FaEnvelope } from "react-icons/fa";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../components/Styling/footer.css";
-
-const Footer = () => {
+import React from 'react';
+import { motion } from 'framer-motion';
+import { FaTiktok, FaInstagram, FaFacebook } from 'react-icons/fa'; // Using react-icons for social media
+import "../index.css"
+const Footer: React.FC = () => {
   return (
-    <footer className="footer text-center py-3">
-      <div className="container">
-        <p className="mb-2">© 2025 Honey Cattery</p>
-        <div className="social-links d-flex justify-content-center gap-4 mb-2">
-          <a href="https://tiktok.com/yourprofile" target="_blank" rel="noopener noreferrer" className="social-icon">
+    <motion.footer
+      className="bg-gray-200 py-6 text-center transition-colors duration-300
+        dark:bg-gray-800 text-gray-700 dark:text-gray-300"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+    >
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <p className="font-cinzel text-sm md:text-base mb-3">
+          &copy; {new Date().getFullYear()} Honey's Cattery. All rights reserved.
+        </p>
+        <div className="flex justify-center space-x-6 mb-3">
+          <a
+            href="https://tiktok.com/yourprofile"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-blue-600 transition-colors duration-300 dark:text-gray-400 dark:hover:text-blue-400"
+            aria-label="Follow us on TikTok"
+          >
             <FaTiktok size={24} />
           </a>
-          <a href="https://instagram.com/yourprofile" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <a
+            href="https://www.instagram.com/p/C25Rh0Uom7P/?igsh=Mzl6aGZiZDcxM3Nr" // Consider changing to main profile
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-blue-600 transition-colors duration-300 dark:text-gray-400 dark:hover:text-blue-400"
+            aria-label="Follow us on Instagram"
+          >
             <FaInstagram size={24} />
           </a>
-          <a href="https://facebook.com/yourprofile" target="_blank" rel="noopener noreferrer" className="social-icon">
+          <a
+            href="https://facebook.com/yourprofile"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-600 hover:text-blue-600 transition-colors duration-300 dark:text-gray-400 dark:hover:text-blue-400"
+            aria-label="Follow us on Facebook"
+          >
             <FaFacebook size={24} />
           </a>
-          <a href="mailto:mail@honeyscattery.com" className="social-icon">
-            <FaEnvelope size={24} />
-          </a>
         </div>
-        <p className="mb-0">
-          <a href="/contact">Contact Us</a>
+        <p className="text-xs text-gray-500 dark:text-gray-400">
+          Crafted with love for purrfect homes.
         </p>
       </div>
-    </footer>
+    </motion.footer>
   );
 };
 

@@ -1,0 +1,52 @@
+/* src/styles/faq.css */
+
+/* .main overrides for FAQ page to handle fixed header/footer padding */
+.main {
+  flex: 1; /* Inherited from index.css for flex-grow */
+  /* CRITICAL: Add padding to main to offset fixed header and footer specific to this page */
+  padding-top: var(--header-height-initial-desktop); /* Default for desktop */
+  padding-bottom: var(--footer-height-approx); /* Default for all screens */
+}
+
+/* Responsive adjustments for main padding specific to FAQ page */
+@media (max-width: 991.98px) { /* Adjusted breakpoint to match Header.tsx mobile */
+  .main {
+    padding-top: var(--header-height-initial-mobile); /* Adjust for mobile header height */
+  }
+}
+
+.faq-list {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: #fff; /* Light mode background */
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark mode for FAQ item */
+.dark-mode .faq-item {
+  background: #2c2c2c;
+  box-shadow: 0 2px 8px rgba(255,255,255,0.05);
+}
+
+h3 {
+  font-family: "Playfair Display", "Georgia", serif;
+  font-size: 1.25rem;
+  color: var(--text-color); /* Use global text color variable */
+  margin: 0 0 0.5rem;
+}
+
+/* Removed broad p selector, text color is handled by global variables via dark-mode classes in TSX */
+/* p {
+  font-family: "Lato", "Arial", sans-serif;
+  font-size: 1rem;
+  color: #666666;
+  margin: 0;
+} */

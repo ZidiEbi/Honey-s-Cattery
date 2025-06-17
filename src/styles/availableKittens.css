@@ -1,0 +1,347 @@
+/* src/styles/availableKittens.css */
+
+/* Overrides for .main specific to AvailableKittens page to center content and add padding */
+.main {
+  flex: 1; /* Fills remaining space */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* CRITICAL: Add padding to main to offset fixed header and footer specific to this page */
+  padding-top: var(--header-height-initial-desktop); /* Default for desktop */
+  padding-bottom: var(--footer-height-approx); /* Default for all screens */
+}
+
+/* Responsive adjustments for main padding specific to Available Kittens */
+@media (max-width: 991.98px) { /* Adjusted breakpoint to match Header.tsx mobile */
+  .main {
+    padding-top: var(--header-height-initial-mobile); /* Adjust for mobile header height */
+  }
+}
+
+.kitten-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%; /* Stretch to fill main */
+}
+
+.kitten-carousel {
+  position: relative;
+  width: 100%;
+  height: 80vh; /* Responsive height relative to viewport */
+  min-height: 350px; /* A slightly lower minimum height to allow more compression */
+  max-height: 750px; /* A higher maximum to allow for larger screens but not excessively tall */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 40px; /* Adjust padding for arrows */
+}
+
+.carousel-card {
+  width: 90vw; /* Nearly full width on mobile */
+  max-width: 450px; /* Slightly increased desktop cap for better balance */
+  /* Using aspect-ratio for a more robust square shape */
+  aspect-ratio: 1 / 1;
+  /* Removed height: 90vw; max-height: 450px; as aspect-ratio handles height based on width */
+  border-radius: 15px;
+  overflow: hidden; /* Important for containing absolutely positioned children */
+  cursor: pointer;
+  background: #fff; /* Light mode card background */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Standard card shadow */
+  position: relative; /* CRITICAL: Establishes positioning context for absolute children */
+  z-index: 1; /* Ensures card sits above background elements but below modal */
+  will-change: transform, opacity; /* Hint to browser for animation performance */
+
+  /* The flex properties here are less relevant as children are absolute, but keeping them if other non-absolute children were intended */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+/* Dark mode for carousel card */
+.dark-mode .carousel-card {
+  background: #2c2c2c;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+.carousel-img {
+  position: absolute; /* Position absolutely to allow overlay to cover it fully */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; /* CRITICAL: Stretch image to all corners */
+  width: 100%;
+  height: 100%; /* Ensure image fills the card's height */
+  object-fit: cover;
+  display: block;
+  border-radius: 15px;
+  z-index: 1; /* Lower z-index than overlay */
+}
+
+.carousel-overlay {
+  position: absolute; /* Position relative to .carousel-card */
+  top: 0;
+  left: 0;
+  right: 0; /* CRITICAL: Explicitly stretch to right */
+  bottom: 0; /* Explicitly stretch to bottom */
+  width: 100%; /* Redundant if right/left/top/bottom are 0 but explicit */
+  height: 100%; /* Redundant if right/left/top/bottom are 0 but explicit */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0; /* Hidden by default */
+  transition: opacity 0.3s ease;
+  z-index: 2; /* Higher than carousel-img */
+  will-change: opacity; /* Hint to browser for animation performance */
+}
+.carousel-card:hover .carousel-overlay {
+  opacity: 1; /* Show on hover */
+}
+
+
+.btn-want {
+  background: rgba(255, 255, 255, 0.9);
+  border: 2px solid #fff;
+  padding: 10px 20px;
+  font-size: clamp(1rem, 4vw, 1.4rem); /* Responsive font size */
+  color: #333;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+  z-index: 4; /* CRITICAL: Higher than overlay, caption, and request-overlay */
+  position: relative; /* Ensures z-index works relative to containing stacking context */
+}
+.btn-want:hover {
+  background: #fff;
+  border-color: var(--link-hover-color);
+  color: var(--link-hover-color);
+}
+/* Dark mode for want button */
+.dark-mode .btn-want {
+  background: rgba(0, 0, 0, 0.7);
+  border-color: #333;
+  color: #f0f0f0;
+}
+.dark-mode .btn-want:hover {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: var(--link-hover-color);
+  color: var(--link-hover-color);
+}
+
+
+.carousel-caption {
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 8px;
+  text-align: center;
+  font-size: clamp(0.9rem, 3vw, 1.2rem); /* Responsive font size */
+  border-radius: 0 0 15px 15px;
+  z-index: 3; /* CRITICAL: Higher than overlay (z-index: 2) */
+}
+
+.request-overlay {
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  z-index: 3; /* CRITICAL: Higher than overlay (z-index: 2) */
+}
+
+.request-invite {
+  display: inline-block; /* Changed from inline to inline-block for better padding/margin */
+  background: rgba(255, 255, 255, 0.8);
+  padding: 8px 16px;
+  border-radius: 20px;
+  color: #333;
+  font-size: clamp(0.9rem, 3vw, 1.2rem);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); /* Add shadow */
+  transition: all 0.3s ease;
+}
+/* Dark mode for request invite */
+.dark-mode .request-invite {
+  background: rgba(0, 0, 0, 0.7);
+  color: #f0f0f0;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+}
+.request-invite:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.dark-mode .request-invite:hover {
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+
+.carousel-background {
+  position: absolute;
+  top: -20px;
+  left: -20%;
+  width: 140%;
+  height: 120%;
+  background: linear-gradient(45deg, rgba(135, 168, 201, 0.2), transparent, rgba(217, 194, 167, 0.2));
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 30; /* Ensure arrows are on top of everything else in the carousel */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+.nav-arrow:hover {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+/* Dark mode for nav arrows */
+.dark-mode .nav-arrow {
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+  color: var(--text-color); /* Paw emoji color */
+}
+.dark-mode .nav-arrow:hover {
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+
+.nav-prev {
+  left: 5px; /* Closer on mobile */
+}
+
+.nav-next {
+  right: 5px; /* Closer on mobile */
+}
+
+.description {
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  color: var(--text-color); /* Use global text color variable */
+}
+
+/* Modal styling */
+.modal-content {
+  background-color: var(--bg-color); /* Use global background color */
+  color: var(--text-color); /* Use global text color */
+  border-radius: 10px;
+  border: none; /* Remove default border */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+.dark-mode .modal-content {
+  background-color: #2c2c2c;
+  box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+}
+
+.modal-header {
+  background-color: #e9e9e9; /* Light mode header */
+  border-bottom: 1px solid #ddd;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.dark-mode .modal-header {
+  background-color: #3c3c3c;
+  border-color: #555;
+}
+
+.modal-title {
+  color: var(--text-color); /* Inherit title color */
+}
+
+.modal-body {
+  padding: 20px;
+}
+.dark-mode .modal-body {
+  background-color: #2c2c2c;
+}
+
+.form-label {
+  color: var(--text-color); /* Ensure labels are visible */
+}
+
+.form-control {
+  background-color: #fff; /* Light mode input background */
+  color: #333; /* Light mode input text */
+  border-color: #ccc;
+}
+.dark-mode .form-control {
+  background-color: #333;
+  color: var(--text-color);
+  border-color: #555;
+}
+.form-control:focus {
+  border-color: var(--link-hover-color);
+  box-shadow: 0 0 0 0.25rem rgba(135, 168, 201, 0.25); /* Use RGB for shadow */
+}
+
+.btn-primary {
+  background-color: var(--link-hover-color); /* Use global primary button color */
+  border-color: var(--link-hover-color);
+}
+.btn-primary:hover {
+  background-color: #6c8da6;
+  border-color: #6c8da6;
+}
+
+.text-success {
+  color: #28a745 !important;
+}
+.text-danger {
+  color: #dc3545 !important;
+}
+
+
+/* Responsive Adjustments */
+@media (min-width: 768px) {
+  .kitten-carousel {
+    height: 70vh; /* Larger on tablets/desktops */
+    max-height: 700px; /* Cap for larger screens */
+  }
+
+  .carousel-card {
+    width: 50vw; /* Larger on tablets */
+    max-width: 500px;
+    /* aspect-ratio will handle height */
+  }
+
+  .nav-prev {
+    left: -50px;
+  }
+
+  .nav-next {
+    right: -50px;
+  }
+
+  .description {
+    font-size: clamp(1rem, 2vw, 1.1rem);
+  }
+}
+
+@media (min-width: 992px) {
+  .carousel-card {
+    width: 40vw; /* Even larger on desktops */
+    max-width: 600px;
+    /* aspect-ratio will handle height */
+  }
+}

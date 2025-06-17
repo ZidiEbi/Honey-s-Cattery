@@ -1,0 +1,358 @@
+/* src/styles/header.css */
+
+/* Base Header Styling */
+.header {
+  background-color: var(--header-bg-light);
+  padding: 10px;
+  height: 30px; /* Default height */
+  position: fixed; /* Fixed for consistent top placement */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle initial shadow */
+  display: flex; /* Ensure it's a flex container */
+  align-items: center; /* Vertically center content */
+}
+
+.header.scrolled {
+  height: 60px; /* Shorter height on scroll */
+  background-color: var(
+    --header-scrolled-bg-light
+  ); /* Semi-transparent background */
+  box-shadow: 0 4px 15px var(--shadow-color); /* More prominent shadow */
+  backdrop-filter: blur(5px); /* Apply blur effect */
+  -webkit-backdrop-filter: blur(5px); /* Vendor prefix for compatibility */
+}
+
+.header-container {
+  width: 100%; /* Ensure it spans full width */
+  max-width: 1200px; /* Example max width, adjust as needed */
+  margin: 0 auto;
+  padding: 0 1rem; /* Horizontal padding */
+}
+
+/* Logo Styling */
+.logo {
+  font-family: "Cinzel", "Times New Roman", serif;
+  font-size: 1.75rem; /* Base size */
+  font-weight: 700;
+  color: var(--text-color);
+  margin: 0;
+  white-space: nowrap;
+  transition: color 0.3s ease; /* Smooth transition for dark mode */
+}
+
+/* Navigation Links (Desktop & Mobile shared styles) */
+.nav-link {
+  font-family: "Cormorant Garamond", "Georgia", serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--link-color-light); /* Default link color from variable */
+  padding: 0.75rem 1rem;
+  transition: color 0.3s;
+  text-align: center; /* Center alignment for desktop nav */
+  text-decoration: none; /* Remove underline */
+}
+
+.nav-link:hover,
+.nav-link.active {
+  color: var(--link-hover-color); /* Hover/active color from variable */
+}
+
+/* Dark Mode Toggle Button (Desktop & Mobile) */
+.dark-mode-toggle {
+  color: var(--text-color);
+  border-color: var(--text-color);
+  width: 40px; /* Adjust size as needed */
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%; /* Make it round */
+  transition: all 0.3s ease;
+  background-color: transparent; /* Ensure transparent background */
+  cursor: pointer;
+  /* Specific styling for the actual button, not its wrapper */
+}
+
+.dark-mode-toggle:hover {
+  color: var(--link-hover-color);
+  border-color: var(--link-hover-color);
+}
+.dark-mode-toggle:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(135, 168, 201, 0.5);
+}
+
+/* Mobile Dark Mode Toggle Wrapper */
+.dark-mode-toggle-mobile {
+  display: flex; /* Always a flex container */
+  justify-content: center; /* Center button horizontally */
+  padding: 10px; /* Some padding */
+  border-bottom: 1px solid rgba(135, 168, 201, 0.2); Separator line
+  margin-bottom: 15px; /* Space below toggle */
+}
+.dark-mode-toggle-mobile .dark-mode-toggle {
+  width: 100px; /* Wider button for text */
+  height: auto; /* Adjust height based on content */
+  padding: 8px 12px; /* Text padding */
+  border-radius: 20px; /* Pill shape */
+  font-family: "Lato", "Arial", sans-serif;
+  font-size: 1rem;
+}
+.dark-mode-toggle-mobile i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+/* Hamburger Button (Mobile) */
+.hamburger-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Ensure it's above other content */
+}
+
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  box-sizing: border-box;
+  width: 3rem;
+  height: 3rem;
+}
+
+.hamburger-icon span {
+  display: block;
+  /* position: absolute; */
+  height: 2px;
+  width: 50px;
+  background: var(--text-color);
+  border-radius: 2px;
+  opacity: 1;
+  right: 50px;
+  transform: rotate(0deg);
+  transition: all 0.3s ease-in-out;
+}
+.hamburger-icon span:nth-child(1) {
+  top: 0;
+}
+.hamburger-icon span:nth-child(2) {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.hamburger-icon span:nth-child(3) {
+  bottom: 0;
+}
+
+.hamburger-icon.open span:nth-child(1) {
+  top: 50%;
+  transform: translateY(8px) rotate(45deg);
+}
+.hamburger-icon.open span:nth-child(2) {
+  opacity: 0;
+}
+.hamburger-icon.open span:nth-child(3) {
+  bottom: 50%;
+  transform: translateY(-17px) rotate(-45deg);
+}
+
+/* Mobile Menu Overlay (Off-canvas navigation for nav-menu) */
+.nav-menu {
+  /* This targets the motion.nav element from Header.tsx */
+  background-color: var(
+    --header-scrolled-bg-light
+  ); /* Light mode background with transparency */
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Transition transform for slide-in */
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  box-shadow: -4px 0 15px var(--shadow-color); /* Shadow on the left */
+  /* These are typically defined by Bootstrap/inline styles in component:
+     position: fixed; top: 0; right: 0; width: 75%; z-index: 1040; height: 100%; */
+
+  /* Initial hidden state for mobile menu */
+  transform: translateX(100%);
+  display: flex; /* Always flex for layout */
+  flex-direction: column; /* Stack vertically */
+  align-items: flex-end; /* Align links to the right */
+  padding: 1.5rem; /* Internal padding */
+}
+.nav-menu.open {
+  transform: translateX(0); /* Slide in */
+}
+
+.nav-menu ul {
+  list-style: none; /* Remove bullet points */
+  padding: 0;
+  margin: 0;
+  width: 100%; /* Take full width of menu */
+  text-align: right; /* Align text within menu */
+}
+.nav-menu .nav-item {
+  margin-bottom: 10px; /* Space between mobile links */
+}
+.nav-menu .nav-link {
+  font-size: 1rem; /* Larger for mobile menu links */
+  padding: 0.5rem 0.6rem; /* Adjust padding */
+}
+
+/* Dark Mode Overrides for Header Elements */
+.dark-mode .header {
+  background-color: var(--header-bg-dark);
+  box-shadow: 0 2px 5px rgba(255, 255, 255, 0.1); /* Dark mode initial shadow */
+}
+.dark-mode .header.scrolled {
+  background-color: var(--header-scrolled-bg-dark);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+.dark-mode .logo,
+.dark-mode .nav-link,
+.dark-mode .dark-mode-toggle {
+  color: var(--text-color); /* Apply global text color for dark mode */
+}
+.dark-mode .nav-link {
+  color: var(--link-color-dark); /* Specific dark mode link color */
+}
+.dark-mode .dark-mode-toggle {
+  border-color: var(--text-color); /* Apply border color for dark mode toggle */
+}
+.dark-mode .dark-mode-toggle:hover {
+  border-color: var(--link-hover-color);
+  color: var(--link-hover-color);
+}
+.dark-mode .hamburger-button .hamburger-icon span {
+  /* Target spans for dark mode */
+  background: var(--text-color); /* Hamburger icon color in dark mode */
+}
+.dark-mode .nav-menu-mobile {
+  background-color: var(
+    --header-scrolled-bg-dark
+  ); /* Match scrolled header background */
+}
+
+/* Responsive Adjustments for Header */
+@media (min-width: 992px) {
+  /* Changed from 768px to 992px for consistency with d-lg- */
+  .header {
+    height: 100px; /* Adjust desktop header height */
+  }
+  .header.scrolled {
+    height: 80px;
+  }
+  .logo {
+    font-size: 2.25rem;
+  }
+  /* Desktop Navigation: show flex containers and hide mobile */
+  .d-lg-flex {
+    /* Changed from d-md-flex to d-lg-flex */
+    display: flex !important;
+  }
+  .d-lg-none {
+    /* Changed from d-md-none to d-lg-none */
+    display: none !important;
+  }
+  /* Desktop nav-menu should be static and visible */
+  .nav-menu {
+    position: static !important;
+    max-height: none !important;
+    flex-direction: row !important;
+    background: none !important;
+    width: auto !important;
+    overflow: visible !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    transform: translateX(0) !important; /* Ensure it's not translated */
+    align-items: center; /* Vertically align desktop nav items */
+  }
+  .nav-menu ul {
+    flex-direction: row !important;
+    text-align: left !important; /* Align text within desktop nav */
+  }
+  .nav-menu .nav-item {
+    margin: 0 0.75rem !important;
+    margin-bottom: 0 !important; /* Remove mobile spacing */
+  }
+  .nav-link {
+    font-size: 1.2rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .dark-mode-toggle {
+    width: 40px;
+    height: 40px;
+  }
+  .dark-mode-toggle-mobile {
+    /* Hide mobile specific toggle on desktop */
+    display: none !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  /* Larger desktop screens */
+  .header {
+    height: 120px;
+  }
+  .header.scrolled {
+    height: 100px;
+  }
+  .logo {
+    font-size: 2.75rem;
+  }
+  .nav-link {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  /* Mobile and Tablet screens */
+  .header {
+    height: 70px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Ensure shadow on mobile */
+  }
+  .header.scrolled {
+    height: 50px;
+  }
+  .logo {
+    font-size: 1.5rem;
+  }
+  /* Mobile Navigation: show mobile elements and hide desktop */
+  .d-lg-flex {
+    /* Hide desktop nav */
+    display: none !important;
+  }
+  .d-lg-none {
+    /* Show mobile elements */
+    display: flex !important;
+  }
+  /* Mobile off-canvas menu styles (nav-menu) */
+  .nav-menu {
+    top: 10%; /* Starts from top of viewport */
+    right: 0;
+    width: 75%; /* Adjust width as needed */
+    z-index: 1040; /* Above most content */
+    height: 90%; /* Full height */
+    position: fixed; /* Fixed position for off-canvas effect */
+    flex-direction: column;
+    padding: 1rem; /* Adjust padding */
+    box-shadow: -4px 0 15px var(--shadow-color); /* Shadow on the left */
+    background: rgba(255, 255, 255, 0.95); /* Light mode background */
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    transform: translateX(100%); /* Start off-screen */
+  }
+  .nav-menu.open {
+    transform: translateX(0); /* Slide in when open */
+  }
+  .nav-menu ul {
+    text-align: right;
+  }
+  .main {
+    padding-top: 70px; /* Adjust for mobile header height */
+  }
+}

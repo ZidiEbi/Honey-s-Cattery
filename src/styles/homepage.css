@@ -1,0 +1,128 @@
+/* src/styles/homepage.css */
+
+/* Removed .container and .row display properties as Bootstrap handles these */
+/* Removed .col-12, .col-md-6, .col-lg-3 flex properties as these are best in global or component HTML */
+/* Removed .main background color as it's now global in index.css */
+
+/* Wrapper for the Swiper carousel, provides max-width and centering */
+.swiper-container-wrapper {
+  max-width: 900px; /* Adjust max-width as needed */
+  margin: 0 auto;
+  padding: 20px 0; /* Add vertical padding */
+}
+
+/* Swiper slide content styling */
+.swiper-slide-content {
+  background-size: cover;
+  background-position: center;
+  height: 300px; /* Fixed height for the slide content area */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff; /* Default text color for slide content */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); /* Add text shadow for readability */
+  padding: 20px;
+  border-radius: 10px;
+  overflow: hidden; /* Ensure content stays within bounds */
+  position: relative; /* Needed for overlay */
+}
+
+/* Add a subtle overlay for better text readability on images */
+.swiper-slide-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3); /* Dark overlay */
+  border-radius: 10px;
+  z-index: 1; /* Below text */
+}
+
+.swiper-slide-content > * { /* Target direct children to be above overlay */
+  position: relative;
+  z-index: 2;
+}
+
+.swiper-slide-title {
+  font-family: "Playfair Display", serif;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #fff; /* Ensure white color for title */
+}
+
+.swiper-slide-description {
+  font-family: "Lato", sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: #f0f0f0; /* Slightly off-white for description */
+  max-width: 80%; /* Constrain width for readability */
+}
+
+/* Swiper navigation arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--link-hover-color) !important; /* Force color for arrows */
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  transition: background-color 0.3s, transform 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.dark-mode .swiper-button-prev,
+.dark-mode .swiper-button-next {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: var(--text-color) !important;
+}
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 1.2rem !important; /* Adjust arrow size */
+  font-weight: bold; /* Make arrows bolder */
+}
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  background-color: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+}
+.dark-mode .swiper-button-prev:hover,
+.dark-mode .swiper-button-next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+
+/* Swiper pagination dots */
+.swiper-pagination {
+  bottom: 10px !important; /* Position pagination lower */
+}
+.swiper-pagination-bullet {
+  background-color: #aaa !important; /* Default dot color */
+  opacity: 0.6 !important;
+  transition: background-color 0.3s, opacity 0.3s;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--link-hover-color) !important; /* Active dot color */
+  opacity: 1 !important;
+}
+
+/* Responsive adjustments for Swiper */
+@media (max-width: 767px) {
+  .swiper-slide-title {
+    font-size: 1.5rem;
+  }
+  .swiper-slide-description {
+    font-size: 1rem;
+  }
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 30px;
+    height: 30px;
+  }
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    font-size: 1rem !important;
+  }
+}

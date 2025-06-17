@@ -1,128 +1,110 @@
-import React, { useState, useEffect } from "react";
-import { motion, useAnimation } from "framer-motion"; // Import Framer Motion
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../index.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import SwiperComponent from "../components/swiper";
+import React from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-interface CardProps {
-  src: string;
-  alt: string;
-  title: string;
+// Ensure correct relative paths based on your components/styles folder structure
+import Header from '../styles/Header'; // Header.tsx is in src/styles/
+import Footer from '../styles/Footer'; // Footer.tsx is in src/styles/
+import '../styles/homepage.css'; // homepage.css is in src/styles/
+
+interface HomePageProps {
+  toggleDark: () => void;
+  isDark: boolean;
 }
 
-const Card: React.FC<CardProps> = ({ src, alt, title }) => {
-  const [loaded, setLoaded] = useState(false);
-  const controls = useAnimation(); // Framer Motion controls for animation
-
-  // Trigger animation when the image loads
-  useEffect(() => {
-    if (loaded) {
-      controls.start("visible");
-    }
-  }, [loaded, controls]);
-
-  return (
-    <motion.div
-      className="card h-100 border-0"
-      initial="hidden"
-      animate={controls}
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
-      }}
-      whileHover={{
-        scale: 1.05,
-        boxShadow: "0 10px 20px rgba(135, 168, 201, 0.3)",
-        transition: { duration: 0.3, ease: "easeInOut" },
-      }}
-      onLoad={() => setLoaded(true)}
-    >
-      {!loaded && <div className="skeleton" />}
-      <img
-        src={src}
-        className="card-img-top img-fluid"
-        alt={alt}
-        onLoad={() => setLoaded(true)}
-        style={{ display: loaded ? "block" : "none" }}
-      />
-      <div className="card-body text-center">
-        <h5 className="card-title">{title}</h5>
-      </div>
-    </motion.div>
-  );
-};
-
-const HomePage = () => {
-  const [isDark, setIsDark] = useState(false);
-  const pageControls = useAnimation(); // Controls for page entrance
-
-  useEffect(() => {
-    // Animate page on load
-    pageControls.start("visible");
-
-    // Scroll handler for header
-    const handleScroll = () => {
-      const header = document.querySelector(".header");
-      if (header) {
-        header.classList.toggle("scrolled", window.scrollY > 50);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [pageControls]);
-
-  // Page variants for entrance animation
-  const pageVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } },
-  };
+const HomePage: React.FC<HomePageProps> = ({ toggleDark, isDark }) => {
+  // Data for the Swiper carousel
+  const carouselData = [
+    {
+      id: 1,
+      image: "/images/IMG-20250224-WA0034.jpg",
+      title: "Our Family",
+      description: "Meet our beloved adult cats who are part of our cattery family.",
+    },
+    {
+      id: 2,
+      image: "/images/IMG-20250224-WA0038.jpg",
+      title: "Healthy & Happy",
+      description: "Our kittens are raised in a loving environment, ensuring their health and happiness.",
+    },
+    {
+      id: 3,
+      image: "/images/white&brown-fur.jpg",
+      title: "Future Champions",
+      description: "Promising lineage for beauty and temperament. Ready for their forever homes.",
+    },
+    // Add more slides here if you want to utilize multiple slidesPerView at larger breakpoints.
+    // For slidesPerView:2 or 3, you'd typically need 6+ slides for smooth looping.
+    {
+      id: 4,
+      image: "/images/IMG-20250224-WA0036.jpg",
+      title: "Playful Paws",
+      description: "Watch our kittens explore and play in their spacious environment.",
+    },
+    {
+      id: 5,
+      image: "/images/chocolate-shorthair.jpg",
+      title: "Purrfect Companions",
+      description: "Each kitten is unique, ready to bring joy and companionship to your home.",
+    },
+  ];
 
   return (
-    <motion.div
-      className={`container-fluid p-0 ${isDark ? "dark-mode" : ""}`}
-      initial="hidden"
-      animate={pageControls}
-      variants={pageVariants}
-    >
-      <Header toggleDark={() => setIsDark(!isDark)} isDark={false} />
-      <main className="main py-5">
-        <div className="container">
-          <h2 className="text-center mb-4">Home</h2>
-          <div className="row g-4">
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/fendi.jpg" alt="Garfield Ginger" title="Garfield Ginger" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/3.jpg" alt="Grey Shorthair" title="Grey Shorthair" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/black-cat.jpg" alt="Blue-Eyed Beauty" title="Dark Swade" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/striped-cat.jpg" alt="Fawn Kitten" title="Fawn Kitten" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/grey-kitten.jpg" alt="Chocolate Shorthair" title="Blue-Eyed Beauty" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/1.jpg" alt="Lilac Shorthair" title="Lilac Shorthair" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/chocolate-shorthair.jpg" alt="Lilac Shorthair" title="Cinnamon Shorthair" />
-            </div>
-            <div className="col-12 col-md-6 col-lg-3">
-              <Card src="../src/assets/4.jpg" alt="Skyblue Star" title="Long-Haired Ginger" />
-            </div>
+    <div className={`page-wrapper ${isDark ? 'dark-mode' : ''}`}>
+      <Header toggleDark={toggleDark} isDark={isDark} />
+      <main className="main">
+        <div className="container py-5">
+          <h1 className="text-center mb-4">Honey's Cattery</h1>
+          <p className="text-center lead mb-5">
+            Welcome to Honey's Cattery, where we raise exquisite and healthy kittens
+            with love and care. Find your purrfect companion today!
+          </p>
+
+          {/* Swiper Carousel Integration */}
+          <div className="swiper-container-wrapper">
+            <Swiper
+              modules={[Autoplay, Pagination, Navigation]}
+              spaceBetween={30} // Space between slides
+              slidesPerView={1} // Keep at 1 for smooth looping with limited slides
+              loop={true} // Infinite loop
+              autoplay={{
+                delay: 3000, // Autoplay delay in milliseconds
+                disableOnInteraction: false, // Continue autoplay after user interaction
+              }}
+              pagination={{
+                clickable: true, // Enable clickable pagination
+              }}
+              navigation={true} // Enable navigation arrows
+              // Responsive breakpoints: Removed for simplicity with 3 slides
+              // If you add more slides (e.g., 6+), you can reintroduce:
+              // breakpoints={{
+              //   768: { slidesPerView: 2 },
+              //   1024: { slidesPerView: 3 },
+              // }}
+            >
+              {carouselData.map((slide) => (
+                <SwiperSlide key={slide.id}>
+                  <div
+                    className="swiper-slide-content" // Use a class for styling
+                    style={{ backgroundImage: `url(${slide.image})` }} // Keep background image inline for dynamic path
+                  >
+                    <h2 className="swiper-slide-title">
+                      {slide.title}
+                    </h2>
+                    <p className="swiper-slide-description">{slide.description}</p>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
-
-        <SwiperComponent />
-
       </main>
       <Footer />
-    </motion.div>
+    </div>
   );
 };
 

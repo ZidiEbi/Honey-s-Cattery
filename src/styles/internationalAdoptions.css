@@ -1,0 +1,45 @@
+/* src/styles/internationalAdoptions.css */
+
+/* .main overrides for International Adoptions page to handle fixed header/footer padding */
+.main {
+  flex: 1; /* Inherited from index.css for flex-grow */
+  /* CRITICAL: Add padding to main to offset fixed header and footer specific to this page */
+  padding-top: var(--header-height-initial-desktop); /* Default for desktop */
+  padding-bottom: var(--footer-height-approx); /* Default for all screens */
+}
+
+/* Responsive adjustments for main padding specific to International Adoptions page */
+@media (max-width: 991.98px) { /* Adjusted breakpoint to match Header.tsx mobile */
+  .main {
+    padding-top: var(--header-height-initial-mobile); /* Adjust for mobile header height */
+  }
+}
+
+.adoption-info {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 20px; /* Added padding for visual spacing */
+  background-color: #fff; /* Light mode background */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Dark mode for adoption info container */
+.dark-mode .adoption-info {
+  background-color: #2c2c2c;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.05);
+}
+
+/* Removed broad p selector, text color is handled by global variables via dark-mode classes in TSX */
+/* p {
+  font-family: "Lato", "Arial", sans-serif;
+  font-size: 1.1rem;
+  color: #666666;
+  line-height: 1.6;
+} */
+/* Removed broad strong selector, text color is handled by global variables via dark-mode classes in TSX */
+/* strong {
+  color: #333333;
+} */
+/* Removed broad ul selector, list styles are handled by global variables via dark-mode classes in TSX */

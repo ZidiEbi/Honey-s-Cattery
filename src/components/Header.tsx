@@ -1,141 +1,151 @@
-import { useState, useEffect, useRef } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { motion } from "framer-motion";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "../components/Styling/header.css";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useLocation } from 'react-router-dom';
+import { SunIcon, MoonIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'; // Using Heroicons for modern icons
+import "../index.css"
 
 interface HeaderProps {
   toggleDark: () => void;
   isDark: boolean;
 }
 
-const Header = ({ toggleDark, isDark }: HeaderProps) => {
+const Header: React.FC<HeaderProps> = ({ toggleDark, isDark }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(false);
-  const navRef = useRef<HTMLDivElement>(null);
-
-  const toggleMenu = () => {
-    setIsOpen((prev) => !prev);
-  };
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-      }
+    // Close mobile menu on route change
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    // Handle scroll for header styling
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
     };
-    if (isOpen) document.addEventListener("mousedown", handleClickOutside);
-    else document.removeEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isOpen]);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-  useEffect(() => {
-    if (isOpen && navRef.current) {
-      const firstLink = navRef.current.querySelector("a");
-      if (firstLink) firstLink.focus();
-    }
-  }, [isOpen]);
+  const navLinks = [
+    { name: 'Home', path: '/' },
+    { name: 'Available Kittens', path: '/available-kittens' },
+    { name: 'Our Kittens', path: '/our-kittens' },
+    { name: 'Waiting List', path: '/waiting-list' },
+    { name: 'International Adoptions', path: '/international-adoptions' },
+    { name: 'Skyblue Eyes Program', path: '/skyblue-eyes' },
+    { name: 'FAQ', path: '/faq' },
+    { name: 'Contact', path: '/contact' },
+  ];
 
-  const isActive = (path: string) => (location.pathname === path ? "active" : "");
+  const menuVariants = {
+    hidden: { opacity: 0, x: '100vw' },
+    visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 100, damping: 20 } },
+    exit: { opacity: 0, x: '100vw', transition: { duration: 0.3 } },
+  };
 
   return (
     <motion.header
-      className="header"
-      initial={{ opacity: 0, y: -50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-in-out
+        ${isScrolled ? 'h-16 bg-white bg-opacity-90 shadow-md backdrop-blur-sm' : 'h-24 bg-transparent'}
+        ${isDark ? 'dark:bg-gray-900 dark:bg-opacity-90 dark:shadow-lg' : ''}`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ type: 'spring', stiffness: 80, damping: 15 }}
     >
-      <div className="container d-flex justify-content-between align-items-center header-container">
-        <h1 className="logo mb-0">Honey Cattery</h1>
-        <button
-          type="button"
-          className="hamburger-button d-lg-none"
-          onClick={toggleMenu}
-          aria-label="Toggle navigation"
-          aria-expanded={isOpen ? "true" : "false"}
-          aria-controls="nav-menu"
-        >
-          <div className={`hamburger-icon ${isOpen ? "open" : ""}`}>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </button>
-        <motion.nav
-          ref={navRef}
-          id="nav-menu"
-          className={`nav-menu ${isOpen ? "open" : ""}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="dark-mode-toggle-mobile p-2 d-lg-none">
-            <button
-              type="button"
-              className="dark-mode-toggle btn btn-outline-secondary rounded-pill"
-              onClick={toggleDark}
-              aria-label="Toggle dark mode"
-              aria-pressed={isDark}
+      <nav className="container mx-auto flex items-center justify-between h-full px-4 sm:px-6 lg:px-8">
+        {/* Logo */}
+        <Link to="/" className={`font-cinzel text-2xl md:text-3xl font-bold transition-colors duration-300
+          ${isDark ? 'text-white' : 'text-amber-800'}`}>
+          Honey's Cattery
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.name}
+              to={link.path}
+              className={`font-cormorant text-lg font-medium hover:text-blue-600 transition-colors duration-300
+                ${isDark ? 'text-gray-300 hover:text-blue-400' : 'text-gray-700'}
+                ${location.pathname === link.path ? (isDark ? 'text-blue-400' : 'text-blue-600') : ''}`}
             >
-              <i className={`bi ${isDark ? "bi-sun" : "bi-moon-stars"} me-1`}></i>
-              {isDark ? "Light" : "Dark"}
+              {link.name}
+            </Link>
+          ))}
+          {/* Dark Mode Toggle for Desktop */}
+          <button
+            onClick={toggleDark}
+            className={`p-2 rounded-full border transition-all duration-300
+              ${isDark ? 'border-gray-600 text-white hover:bg-gray-700' : 'border-amber-800 text-amber-800 hover:bg-amber-100'}`}
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+          </button>
+        </div>
+
+        {/* Mobile Hamburger Menu & Dark Mode Toggle */}
+        <div className="md:hidden flex items-center space-x-4">
+          <button
+            onClick={toggleDark}
+            className={`p-2 rounded-full border transition-all duration-300
+              ${isDark ? 'border-gray-600 text-white hover:bg-gray-700' : 'border-amber-800 text-amber-800 hover:bg-amber-100'}`}
+            aria-label="Toggle dark mode"
+          >
+            {isDark ? <SunIcon className="h-5 w-5" /> : <MoonIcon className="h-5 w-5" />}
+          </button>
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className={`p-2 focus:outline-none transition-colors duration-300
+              ${isDark ? 'text-white hover:text-gray-400' : 'text-amber-800 hover:text-amber-600'}`}
+            aria-label="Toggle navigation menu"
+          >
+            {isMenuOpen ? (
+              <XMarkIcon className="h-7 w-7" />
+            ) : (
+              <Bars3Icon className="h-7 w-7" />
+            )}
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            className={`fixed top-0 right-0 h-full w-3/4 bg-white shadow-xl flex flex-col p-8 transition-colors duration-300
+              ${isDark ? 'dark:bg-gray-800' : 'bg-gray-50'}`}
+            variants={menuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <button
+              onClick={() => setIsMenuOpen(false)}
+              className={`absolute top-4 right-4 p-2 focus:outline-none transition-colors duration-300
+                ${isDark ? 'text-white hover:text-gray-400' : 'text-amber-800 hover:text-amber-600'}`}
+              aria-label="Close navigation menu"
+            >
+              <XMarkIcon className="h-8 w-8" />
             </button>
-          </div>
-          <ul className="nav flex-column flex-lg-row align-items-center">
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/")}`} to="/" onClick={() => setIsOpen(false)}>
-                Home
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/available-kittens")}`} to="/available-kittens" onClick={() => setIsOpen(false)}>
-                Available Kittens
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/our-kittens")}`} to="/our-kittens" onClick={() => setIsOpen(false)}>
-                Our Kittens
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/waiting-list")}`} to="/waiting-list" onClick={() => setIsOpen(false)}>
-                Waiting List
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/international-adoptions")}`} to="/international-adoptions" onClick={() => setIsOpen(false)}>
-                International Adoptions
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/skyblue-eyes")}`} to="/skyblue-eyes" onClick={() => setIsOpen(false)}>
-                Skyblue Eyes Program
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/faq")}`} to="/faq" onClick={() => setIsOpen(false)}>
-                FAQ
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className={`nav-link ${isActive("/contact")}`} to="/contact" onClick={() => setIsOpen(false)}>
-                Contact
-              </Link>
-            </li>
-            <li className="nav-item">
-              <button
-                type="button"
-                className="dark-mode-toggle btn btn-outline-secondary rounded-circle d-lg-block d-none"
-                onClick={toggleDark}
-                aria-label="Toggle dark mode"
-                aria-pressed={isDark}
-              >
-                <i className={`bi ${isDark ? "bi-sun" : "bi-moon-stars"}`}></i>
-              </button>
-            </li>
-          </ul>
-        </motion.nav>
-      </div>
+            <div className="mt-16 flex flex-col space-y-6">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.path}
+                  className={`font-cormorant text-xl font-medium text-right hover:text-blue-600 transition-colors duration-300
+                    ${isDark ? 'text-gray-200 hover:text-blue-400' : 'text-gray-700'}
+                    ${location.pathname === link.path ? (isDark ? 'text-blue-400' : 'text-blue-600') : ''}`}
+                  onClick={() => setIsMenuOpen(false)} // Close menu on link click
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };
